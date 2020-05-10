@@ -8,20 +8,6 @@ function get_sets()
 	-- Load and initialize the include file.
 	include('Mote-Include.lua')
 	
-include('includes/how_about_no.lua')
-include('organizer-lib.lua')
-include('includes/no_interruptions.lua')
-include('includes/spam_protection.lua')
-include('includes/common_commands.lua')
-include('spellstack/main.lua')
-include('includes/spam_protection.lua')
-include('includes/auto_set_party_target.lua')
-include('Modes.lua')
-	rangedDelay = 600
-    cast_speed = 1.0
-    holdMovement = 0
-    require('string')
-	
 end
 
 -- Setup vars that are user-independent.
@@ -59,10 +45,7 @@ function user_setup()
 	send_command ("bind numpad4 send @all /item 'Warp Ring' <me>")
 	send_command ('bind numpad3 send @all /mount Raptor <me>')
 	
-	send_command ('bind numpadenter send @others //lua r healbot')
-	send_command ('bind numpad+ send @others //hb follow Shiraj')
-	send_command ('bind numpad- send @others //hb follow dist 2')
-	send_command ('bind numpad* send @others //hb follow dist 19')
+	
 	
 	
 Town = S{
@@ -1433,28 +1416,6 @@ if spell.type == 'WeaponSkill' and player.target.distance > (3.4 + player.target
     end
 end 	   
 
-function job_precast(spell, action, spellMap, eventArgs)
-    currentCast = spell.english
-    if spell.type == 'Misc' then
-        holdMovement = os.clock() + math.ceil((rangedDelay/106)*cast_speed)
-    elseif spell.type == 'Item' then
-        holdMovement = 0
-    elseif spell.type == 'JobAbility' or spell.type == 'PetCommand' or spell.type == 'Scholar' or spell.cast_time == nil then
-        holdMovement = 0
-    else
-        if spell.english == 'Stoneskin' then
-            holdMovement = os.clock() + math.ceil((10*cast_speed))
-        else
-            holdMovement = os.clock() + math.ceil(((spell.cast_time)*cast_speed))
-        end
-    end
-    
-    
-end
-
-function job_aftercast(spell, action, spellMap, eventArgs)
-    holdMovement = 0
-end	
 
 function handle_ping()
 	if buffactive['petrification'] then
